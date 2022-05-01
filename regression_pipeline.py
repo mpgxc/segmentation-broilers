@@ -114,7 +114,7 @@ features_labeling = labeling_dataset(features, "galinhas_pesos.csv")
 ### Rodando a Regression
 corrmat = features_labeling.corr()
 
-features_names = list(dict(corrmat[corrmat.target >= 0.45].target).keys())
+features_names = list(dict(corrmat[corrmat.target >= 0].target).keys())
 
 X = features_labeling[features_names].drop(labels=['target'], axis=1)
 y = features_labeling.target
