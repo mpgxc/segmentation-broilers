@@ -1,7 +1,7 @@
 ## Resultados
 ### Configurações
 - Segmentação das mascaras utilizando detecção de bordas (Sobel + Canny);
-- Extração de Features baseados em região com aceitação na correlão de pearson acima de 0.35%;
+- Extração de Features baseados em região com aceitação na correlação de pearson acima de 0.35%;
 - Regressão nos seguintes algoritmos:
 
 ## Lasso Regression
