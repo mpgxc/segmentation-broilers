@@ -37,6 +37,14 @@ MANIFEST
 pip-log.txt
 pip-delete-this-directory.txt
 
+dataset
+dataset/
+segmenter_v1
+segmenter_v2
+segmenter_v3
+sobel_canny
+adaptive_threshold
+
 # Unit test / coverage reports
 htmlcov/
 .tox/

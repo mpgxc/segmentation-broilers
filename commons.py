@@ -1,7 +1,7 @@
 import numpy as np
 import statistics
 import tifffile
-
+from scipy import ndimage as ndi
 from skimage.color import rgb2gray
 from skimage import (filters,
                      measure,
@@ -204,3 +204,17 @@ def find_roi(img):
 
 def smoothing_mask_edges(mask):
   return binarize_image(filters.gaussian(mask, sigma=0.5))
+
+def fill_smoothing_mask_edges(mask):
+
+    mask = binarize_image(mask)
+
+    mask = morphology.closing(mask, morphology.disk(9))
+
+    mask = ndi.binary_fill_holes(mask)
+
+    mask = filters.gaussian(mask, sigma=0.5)
+
+    mask = binarize_image(mask)
+
+    return find_bighest_cluster(mask)
