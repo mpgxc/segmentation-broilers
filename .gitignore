@@ -1,6 +1,8 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+dataset_cleaned/
+dataset_original/
 *$py.class
 dataset/
 # C extensions

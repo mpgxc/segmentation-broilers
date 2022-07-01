@@ -107,61 +107,62 @@ def labeling_dataset(pd_features, weights_filepath):
 
     return pd_dataset
 
+if __name__ == "__main__":
 
-features = build_features_dataset("auto_selected_masks")
-features_labeling = labeling_dataset(features, "galinhas_pesos.csv")
+    features = build_features_dataset("auto_selected_masks")
+    features_labeling = labeling_dataset(features, "galinhas_pesos.csv")
 
-### Rodando a Regression
-corrmat = features_labeling.corr()
+    ### Rodando a Regression
+    corrmat = features_labeling.corr()
 
-features_names = list(dict(corrmat[corrmat.target >= 0].target).keys())
+    features_names = list(dict(corrmat[corrmat.target >= 0].target).keys())
 
-X = features_labeling[features_names].drop(labels=['target'], axis=1)
-y = features_labeling.target
+    X = features_labeling[features_names].drop(labels=['target'], axis=1)
+    y = features_labeling.target
 
-X_train, X_test, y_train, y_test = train_test_split(X.values, 
-                                                    y.values, 
-                                                    test_size=0.2,
-                                                    random_state=0)
+    X_train, X_test, y_train, y_test = train_test_split(X.values, 
+                                                        y.values, 
+                                                        test_size=0.2,
+                                                        random_state=0)
 
-scaler = StandardScaler()
+    scaler = StandardScaler()
 
-scaled_x_train = scaler.fit_transform(X_train)
-scaled_x_test = scaler.transform(X_test)
+    scaled_x_train = scaler.fit_transform(X_train)
+    scaled_x_test = scaler.transform(X_test)
 
 
-run_all_regressions(scaled_x_train, 
-                    scaled_x_test,
-                    y_train,
-                    y_test,
-                    regs = {
-                        "Lasso": Lasso(), 
-                        "LinearRegression": LinearRegression(),
-                    })
+    run_all_regressions(scaled_x_train, 
+                        scaled_x_test,
+                        y_train,
+                        y_test,
+                        regs = {
+                            "Lasso": Lasso(), 
+                            "LinearRegression": LinearRegression(),
+                        })
 
-print('=' * 50)
+    print('=' * 50)
 
-run_all_regressions(scaled_x_train, 
-                    scaled_x_test,
-                    y_train,
-                    y_test,
-                    regs = {
-                        "Ridge": Ridge(),
-                        "BayesianRidge": BayesianRidge(), 
-                        "ElasticNet": ElasticNet(), 
-                        "SGDRegressor": SGDRegressor()
-                    })
+    run_all_regressions(scaled_x_train, 
+                        scaled_x_test,
+                        y_train,
+                        y_test,
+                        regs = {
+                            "Ridge": Ridge(),
+                            "BayesianRidge": BayesianRidge(), 
+                            "ElasticNet": ElasticNet(), 
+                            "SGDRegressor": SGDRegressor()
+                        })
 
-print('=' * 50)
+    print('=' * 50)
 
-print("Running C V Model...")
+    print("Running C V Model...")
 
-scaler = StandardScaler()
-scaled_x = scaler.fit_transform(X)
+    scaler = StandardScaler()
+    scaled_x = scaler.fit_transform(X)
 
-model = SGDRegressor()
-scores = cross_val_score(model, scaled_x, y, cv=5, scoring='r2')
+    model = SGDRegressor()
+    scores = cross_val_score(model, scaled_x, y, cv=5, scoring='r2')
 
-print("Todos Scores: ", scores)
-print("R2 Score Médio: ", np.mean(scores))
+    print("Todos Scores: ", scores)
+    print("R2 Score Médio: ", np.mean(scores))
 
